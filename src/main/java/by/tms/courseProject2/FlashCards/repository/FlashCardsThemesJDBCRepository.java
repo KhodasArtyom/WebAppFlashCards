@@ -75,7 +75,7 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
             }
             return listResult;
         } catch (SQLException e) {
-                throw new RepositoryException(e);
+            throw new RepositoryException(e);
         }
 
     }
