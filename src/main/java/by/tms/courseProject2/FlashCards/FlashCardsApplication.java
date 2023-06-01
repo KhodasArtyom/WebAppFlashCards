@@ -14,13 +14,15 @@ import com.zaxxer.hikari.HikariDataSource;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-
+@WebListener
 public class FlashCardsApplication implements ServletContextListener {
+
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -38,50 +40,19 @@ public class FlashCardsApplication implements ServletContextListener {
         FlashCardService flashCardService = new FlashCardServiceImpl(flashCardsRepository);
 
         ServletContext context = event.getServletContext();
-        context.setAttribute("hikariDataSource",hikariDataSource);
-        context.setAttribute("flashCardService",flashCardService);
-        context.setAttribute("flashCardThemeService",flashCardThemeService);
-
-
-
-
+        context.setAttribute("hikariDataSource", hikariDataSource);
+        context.setAttribute("flashCardService", flashCardService);
+        context.setAttribute("flashCardThemeService", flashCardThemeService);
     }
 
-    HikariDataSource dataSource = new HikariDataSource();
-        log.info("The program has started");
-        dataSource.setJdbcUrl(System.getenv("variableUrl"));
-        dataSource.setUsername(System.getenv("variableUser"));
-        dataSource.setPassword(System.getenv("variablePassword"));
-        try (HikariDataSource db = new HikariDataSource(dataSource)) {
-            FlashCardsThemesRepository flashCardsThemesRepository = new FlashCardsThemesJDBCRepository(dataSource);
-            FlashCardsRepository flashCardsRepository = new FlashCardsJDBCRepository(dataSource);
-
-
-            flashCardsThemesRepository.save("COLORS");
-            flashCardsThemesRepository.save("NUMBERS");
-
-
-            flashCardsRepository.save(1, "Black", "Чёрный", false);
-            flashCardsRepository.save(1, "White", "Белый", false);
-            flashCardsRepository.save(1, "Orange", "Оранжевый", false);
-            flashCardsRepository.save(1, "Green", "Зелёный", false);
-            flashCardsRepository.save(1, "Жёлтый", "Жёлтый", false);
-
-            List<FlashCards> allByThemeId = flashCardsRepository.findAllByThemeId(1);
-            System.out.println(allByThemeId);
-
-            System.out.println("=========================");
-
-            Optional<FlashCards> allFlashCardsByIdAndOffset = flashCardsRepository.findAllFlashCardsByIdAndOffset(1, 0);
-            System.out.println(allFlashCardsByIdAndOffset);
-
-            flashCardsRepository.statusUpdateLearned(1, true);
-            flashCardsRepository.statusUpdateLearned(2, true);
-            log.info("The program ended");
-
-
-
-
-        }
+    @Override
+    public void contextDestroyed(ServletContextEvent event) {
+        ServletContext context = event.getServletContext();
+        HikariDataSource hikariDataSource = (HikariDataSource) context.getAttribute("hikariDataSource");
+        hikariDataSource.close();
     }
+
+
+}
+
 

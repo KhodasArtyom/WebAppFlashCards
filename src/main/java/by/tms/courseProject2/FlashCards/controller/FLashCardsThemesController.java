@@ -1,4 +1,4 @@
-package by.tms.courseProject2.controller;
+package by.tms.courseProject2.FlashCards.controller;
 
 import by.tms.courseProject2.FlashCards.models.FlashCardsThemes;
 import by.tms.courseProject2.FlashCards.service.FlashCardThemeService;
@@ -19,9 +19,9 @@ public class FLashCardsThemesController extends HttpServlet {
     private FlashCardThemeService flashCardThemeService;
 
     @Override
-    public void init() throws ServletException {
+    public void init()  {
         ServletContext context = getServletContext();
-        flashCardThemeService = (FlashCardThemeService) context.getAttribute("flashCardsThemeService");
+        flashCardThemeService = (FlashCardThemeService) context.getAttribute("flashCardThemeService");
     }
 
     @Override
