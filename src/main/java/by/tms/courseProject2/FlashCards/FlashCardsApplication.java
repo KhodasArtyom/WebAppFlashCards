@@ -5,19 +5,49 @@ import by.tms.courseProject2.FlashCards.repository.FlashCardsJDBCRepository;
 import by.tms.courseProject2.FlashCards.repository.FlashCardsRepository;
 import by.tms.courseProject2.FlashCards.repository.FlashCardsThemesJDBCRepository;
 import by.tms.courseProject2.FlashCards.repository.FlashCardsThemesRepository;
+import by.tms.courseProject2.FlashCards.service.FLashCardThemeServiceImpl;
+import by.tms.courseProject2.FlashCards.service.FlashCardService;
+import by.tms.courseProject2.FlashCards.service.FlashCardServiceImpl;
+import by.tms.courseProject2.FlashCards.service.FlashCardThemeService;
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-public class Application {
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+public class FlashCardsApplication implements ServletContextListener {
 
-    public static void main(String[] args) {
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
+        hikariConfig.setUsername("postgres");
+        hikariConfig.setPassword("1279");
+        hikariConfig.setDriverClassName("org.postgresql.Driver");
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
 
-        HikariDataSource dataSource = new HikariDataSource();
+        FlashCardsThemesRepository flashCardsThemesRepository = new FlashCardsThemesJDBCRepository(hikariDataSource);
+        FlashCardsRepository flashCardsRepository = new FlashCardsJDBCRepository(hikariDataSource);
+
+        FlashCardThemeService flashCardThemeService = new FLashCardThemeServiceImpl(flashCardsThemesRepository);
+        FlashCardService flashCardService = new FlashCardServiceImpl(flashCardsRepository);
+
+        ServletContext context = event.getServletContext();
+        context.setAttribute("hikariDataSource",hikariDataSource);
+        context.setAttribute("flashCardService",flashCardService);
+        context.setAttribute("flashCardThemeService",flashCardThemeService);
+
+
+
+
+    }
+
+    HikariDataSource dataSource = new HikariDataSource();
         log.info("The program has started");
         dataSource.setJdbcUrl(System.getenv("variableUrl"));
         dataSource.setUsername(System.getenv("variableUser"));
@@ -54,4 +84,4 @@ public class Application {
 
         }
     }
-}
+
