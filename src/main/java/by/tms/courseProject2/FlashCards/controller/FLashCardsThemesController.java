@@ -2,6 +2,7 @@ package by.tms.courseProject2.FlashCards.controller;
 
 import by.tms.courseProject2.FlashCards.models.FlashCardsThemes;
 import by.tms.courseProject2.FlashCards.service.FlashCardThemeService;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +20,8 @@ public class FLashCardsThemesController extends HttpServlet {
     private FlashCardThemeService flashCardThemeService;
 
     @Override
-    public void init()  {
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         ServletContext context = getServletContext();
         flashCardThemeService = (FlashCardThemeService) context.getAttribute("flashCardThemeService");
     }
@@ -29,7 +31,7 @@ public class FLashCardsThemesController extends HttpServlet {
         List<FlashCardsThemes> flashCardsThemesList = flashCardThemeService.seeAllThemes();
 
         String responseBody = flashCardsThemesList.isEmpty() ? "There is no themes" : flashCardsThemesList.stream()
-                .map(flashCardsThemes -> "%3 % -20s %2s / %-2s".formatted(
+                .map(flashCardsThemes -> "%3s %-20s %2s / %-2s".formatted(
                         flashCardsThemes.getId(),
                         flashCardsThemes.getTitle(),
                         flashCardsThemes.getNumberOfLearnedCards(),
