@@ -145,7 +145,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
                         resultSet.getBoolean("status_knowledge")
-                ));
+                                ));
             }
             return getFlashCardsList(statement);
         } catch (SQLException e) {

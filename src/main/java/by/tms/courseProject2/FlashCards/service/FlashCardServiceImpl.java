@@ -56,11 +56,6 @@ public class FlashCardServiceImpl implements FlashCardService{
 
     @Override
     public List<FlashCards> findAllCardsByThemeId(long flashCardId) {
-        List<FlashCards> list = new ArrayList<>();
-        if(!list.isEmpty()) {
-            return list;
-        } else {
-            return new ArrayList<>();
-        }
+        return flashCardsRepository.findAllByThemeId(flashCardId);
     }
 }
