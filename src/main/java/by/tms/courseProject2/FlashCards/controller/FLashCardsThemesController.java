@@ -19,9 +19,9 @@ public class FLashCardsThemesController extends HttpServlet {
 
     private FlashCardThemeService flashCardThemeService;
 
+
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         ServletContext context = getServletContext();
         flashCardThemeService = (FlashCardThemeService) context.getAttribute("flashCardThemeService");
     }

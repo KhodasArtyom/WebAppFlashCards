@@ -1,6 +1,6 @@
 -- Добавление в таблицы
 INSERT INTO flashcard(flashCards_themes_id, question, answer, status_knowledge)
-VALUES (?,?,?,?);
+VALUES (1,'BLACK','Чёрный',false);
 
 INSERT INTO flashcards_theme( set_name)
 VALUES ('COLORS');

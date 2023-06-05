@@ -99,7 +99,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                 FROM flashcard
                 WHERE flashcards_themes_id = ?
                   AND NOT flashcard.status_knowledge
-      
+                      
                 ORDER BY flashcard.id
                 LIMIT 1 OFFSET ?
                 """;
@@ -137,6 +137,16 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, flashcards_themesId);
+            ResultSet resultSet = statement.executeQuery();
+            List<FlashCards> flashCardsList = new ArrayList<>();
+            while (resultSet.next()) {
+                flashCardsList.add(new FlashCards(
+                        resultSet.getLong("id"),
+                        resultSet.getString("question"),
+                        resultSet.getString("answer"),
+                        resultSet.getBoolean("status_knowledge")
+                ));
+            }
             return getFlashCardsList(statement);
         } catch (SQLException e) {
             throw new RepositoryException(e);
