@@ -33,18 +33,16 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public void deleteCard(long flashCardId) {
-        try {
-            flashCardsRepository.remove(flashCardId);
-        } catch (ServiceException e) {
+        boolean isExist = flashCardsThemesRepository.remove(flashCardId);
+        if(!isExist) {
             throw new ServiceException();
         }
     }
 
     @Override
     public void setStatusOfKnowledge(long flashCardId, boolean isKnown) {
-        try {
-            flashCardsRepository.statusUpdateLearned(flashCardId, isKnown);
-        } catch (ServiceException e) {
+        boolean isUpdated = flashCardsRepository.statusUpdateLearned(flashCardId,isKnown);
+        if(!isUpdated) {
             throw new ServiceException();
         }
     }

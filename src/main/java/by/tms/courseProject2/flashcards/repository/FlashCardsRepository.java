@@ -11,7 +11,7 @@ public interface FlashCardsRepository {
 
     void remove(long flashCardId);
 
-    void statusUpdateLearned(long flashCardId, boolean isLearned);
+    boolean statusUpdateLearned(long flashCardId, boolean isLearned);
 
 
     Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long offset);

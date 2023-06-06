@@ -73,7 +73,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public void statusUpdateLearned(long flashCardId, boolean isLearned) {
+    public boolean statusUpdateLearned(long flashCardId, boolean isLearned) {
         String sql = """
                 UPDATE flashcard
                 SET status_knowledge = ?
@@ -87,6 +87,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }
+        return isLearned;
     }
 
     @Override
