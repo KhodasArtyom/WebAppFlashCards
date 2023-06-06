@@ -1,4 +1,4 @@
-package by.tms.courseProject2.FlashCards.models;
+package by.tms.courseProject2.flashcards.models;
 
 public class FlashCardsThemes {
 

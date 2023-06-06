@@ -1,6 +1,6 @@
-package by.tms.courseProject2.FlashCards.repository;
+package by.tms.courseProject2.flashcards.repository;
 
-import by.tms.courseProject2.FlashCards.models.FlashCardsThemes;
+import by.tms.courseProject2.flashcards.models.FlashCardsThemes;
 
 import java.util.List;
 

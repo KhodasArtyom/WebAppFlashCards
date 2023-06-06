@@ -1,11 +1,10 @@
-package by.tms.courseProject2.FlashCards.service;
+package by.tms.courseProject2.flashcards.service;
 
 
-import by.tms.courseProject2.FlashCards.exception.ServiceException;
-import by.tms.courseProject2.FlashCards.models.FlashCards;
-import by.tms.courseProject2.FlashCards.repository.FlashCardsRepository;
+import by.tms.courseProject2.flashcards.exception.ServiceException;
+import by.tms.courseProject2.flashcards.models.FlashCards;
+import by.tms.courseProject2.flashcards.repository.FlashCardsRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +17,11 @@ public class FlashCardServiceImpl implements FlashCardService{
     }
 
     @Override
-    public void addNewCard(long flashCardId, String question, String answer, boolean isKnown) {
+    public void addNewCard(long flashCardId, String question, String answer) {
         if (question.isEmpty() || answer.isEmpty()) {
             throw new ServiceException();
         } else {
-            flashCardsRepository.save(flashCardId,question,answer,isKnown);
+            flashCardsRepository.save(flashCardId,question,answer);
         }
     }
 
@@ -36,7 +35,7 @@ public class FlashCardServiceImpl implements FlashCardService{
     }
 
     @Override
-    public void getStatusOfKnowledge(long flashCardId, boolean isKnown) {
+    public void setStatusOfKnowledge(long flashCardId, boolean isKnown) {
                 try {
                     flashCardsRepository.statusUpdateLearned(flashCardId,isKnown);
                 }catch (ServiceException e) {
@@ -45,8 +44,8 @@ public class FlashCardServiceImpl implements FlashCardService{
     }
 
     @Override
-    public Optional<FlashCards> findAllCardsByIdAndOffset(long flashCardId, long offset) {
-        Optional<FlashCards> flashCards = flashCardsRepository.findAllFlashCardsByIdAndOffset(flashCardId,offset);
+    public Optional<FlashCards> findCardByIdAndOffset(long flashCardId, long offset) {
+        Optional<FlashCards> flashCards = flashCardsRepository.findFlashCardByThemeIdAndOffset(flashCardId,offset);
         try{
             return flashCards;
         }catch (ServiceException e) {
@@ -55,7 +54,7 @@ public class FlashCardServiceImpl implements FlashCardService{
     }
 
     @Override
-    public List<FlashCards> findAllCardsByThemeId(long flashCardId) {
+    public List<FlashCards> findCardByThemeId(long flashCardId) {
         return flashCardsRepository.findAllByThemeId(flashCardId);
     }
 }

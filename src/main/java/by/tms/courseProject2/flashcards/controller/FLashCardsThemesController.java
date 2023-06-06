@@ -1,8 +1,7 @@
-package by.tms.courseProject2.FlashCards.controller;
+package by.tms.courseProject2.flashcards.controller;
 
-import by.tms.courseProject2.FlashCards.models.FlashCardsThemes;
-import by.tms.courseProject2.FlashCards.service.FlashCardThemeService;
-import jakarta.servlet.ServletConfig;
+import by.tms.courseProject2.flashcards.models.FlashCardsThemes;
+import by.tms.courseProject2.flashcards.service.FlashCardThemeService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

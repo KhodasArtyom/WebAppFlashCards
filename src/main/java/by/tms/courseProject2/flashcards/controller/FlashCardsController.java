@@ -1,11 +1,8 @@
-package by.tms.courseProject2.FlashCards.controller;
+package by.tms.courseProject2.flashcards.controller;
 
-import by.tms.courseProject2.FlashCards.models.FlashCards;
-import by.tms.courseProject2.FlashCards.service.FlashCardService;
+import by.tms.courseProject2.flashcards.models.FlashCards;
+import by.tms.courseProject2.flashcards.service.FlashCardService;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,10 +26,11 @@ public class FlashCardsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Long themeId = Long.valueOf(req.getParameter("themeId"));
+        Long themeId = Long.parseLong(req.getParameter("themeId"));
         List<FlashCards> flashCardsList = flashCardService.findAllCardsByThemeId(themeId);
         String responseBody = flashCardsList.isEmpty()?"There is no such theme":flashCardsList.stream()
-                .map(flashCards -> "%3s %-20s %2s / %-2s".formatted(flashCards.getId(),
+                .map(flashCards -> "%3s  %s %s %s".formatted(
+                        flashCards.getId(),
                         flashCards.getQuestion(),
                         flashCards.getAnswer(),
                         flashCards.isStatusKnowledge()

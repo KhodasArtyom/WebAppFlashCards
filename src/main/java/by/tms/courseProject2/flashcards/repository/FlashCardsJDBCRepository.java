@@ -1,7 +1,7 @@
-package by.tms.courseProject2.FlashCards.repository;
+package by.tms.courseProject2.flashcards.repository;
 
-import by.tms.courseProject2.FlashCards.exception.RepositoryException;
-import by.tms.courseProject2.FlashCards.models.FlashCards;
+import by.tms.courseProject2.flashcards.exception.RepositoryException;
+import by.tms.courseProject2.flashcards.models.FlashCards;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -90,7 +90,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public Optional<FlashCards> findAllFlashCardsByIdAndOffset(long flashCards_themes_id, long offset) {
+    public Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long offset) {
         String sql = """
                 SELECT id               AS id,
                        question         AS question,

@@ -1,7 +1,7 @@
-package by.tms.courseProject2.FlashCards.repository;
+package by.tms.courseProject2.flashcards.repository;
 
-import by.tms.courseProject2.FlashCards.exception.RepositoryException;
-import by.tms.courseProject2.FlashCards.models.FlashCardsThemes;
+import by.tms.courseProject2.flashcards.exception.RepositoryException;
+import by.tms.courseProject2.flashcards.models.FlashCardsThemes;
 
 import javax.sql.DataSource;
 import java.sql.*;

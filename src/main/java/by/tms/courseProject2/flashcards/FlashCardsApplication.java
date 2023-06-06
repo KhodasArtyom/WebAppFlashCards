@@ -1,25 +1,20 @@
-package by.tms.courseProject2.FlashCards;
+package by.tms.courseProject2.flashcards;
 
-import by.tms.courseProject2.FlashCards.models.FlashCards;
-import by.tms.courseProject2.FlashCards.repository.FlashCardsJDBCRepository;
-import by.tms.courseProject2.FlashCards.repository.FlashCardsRepository;
-import by.tms.courseProject2.FlashCards.repository.FlashCardsThemesJDBCRepository;
-import by.tms.courseProject2.FlashCards.repository.FlashCardsThemesRepository;
-import by.tms.courseProject2.FlashCards.service.FLashCardThemeServiceImpl;
-import by.tms.courseProject2.FlashCards.service.FlashCardService;
-import by.tms.courseProject2.FlashCards.service.FlashCardServiceImpl;
-import by.tms.courseProject2.FlashCards.service.FlashCardThemeService;
+import by.tms.courseProject2.flashcards.repository.FlashCardsJDBCRepository;
+import by.tms.courseProject2.flashcards.repository.FlashCardsRepository;
+import by.tms.courseProject2.flashcards.repository.FlashCardsThemesJDBCRepository;
+import by.tms.courseProject2.flashcards.repository.FlashCardsThemesRepository;
+import by.tms.courseProject2.flashcards.service.FLashCardThemeServiceImpl;
+import by.tms.courseProject2.flashcards.service.FlashCardService;
+import by.tms.courseProject2.flashcards.service.FlashCardServiceImpl;
+import by.tms.courseProject2.flashcards.service.FlashCardThemeService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Optional;
 @WebListener
 public class FlashCardsApplication implements ServletContextListener {
 
