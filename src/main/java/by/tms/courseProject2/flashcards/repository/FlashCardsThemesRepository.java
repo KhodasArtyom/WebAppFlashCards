@@ -11,4 +11,6 @@ public interface FlashCardsThemesRepository {
     boolean remove(long id);
 
     List<FlashCardsThemes> getAllThemes();
+
+    boolean isExist(long themeId);
 }

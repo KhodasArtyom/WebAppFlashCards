@@ -15,6 +15,24 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
         this.db = db;
     }
 
+    @Override
+    public boolean isExist(long themeId) {
+        String sql = """
+                SELECT TRUE
+                FROM flashcards_theme
+                WHERE flashcards_theme.id = ?""";
+        try (
+                Connection connection = db.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
+        ){
+            statement.setLong(1, themeId);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public void save(String nameOfTheme) {
