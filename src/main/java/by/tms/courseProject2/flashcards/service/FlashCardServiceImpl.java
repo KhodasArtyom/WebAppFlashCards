@@ -51,16 +51,27 @@ public class FlashCardServiceImpl implements FlashCardService {
     }
 
     @Override
-    public Optional<FlashCards> trainingWithCardCardByThemeIdAndOffset(long themeId, long offset) {
+    public Optional<FlashCards> trainingWithCard(long themeId, long nextCard) {
         if (!flashCardsThemesRepository.isExist(themeId)) {
             throw new ServiceException();
         }
-        return flashCardsRepository.findFlashCardByThemeIdAndOffset(themeId, offset);
+        return flashCardsRepository.getOneFlashCard(themeId, nextCard);
 
     }
 
     @Override
     public List<FlashCards> findCardsByThemeId(long flashCardId) {
-        return flashCardsRepository.findAllByThemeId(flashCardId);
+        return flashCardsRepository.findAllCardsByThemeId(flashCardId);
+    }
+
+    @Override
+    public Optional<FlashCards> getNextFlashCard(long flashCardId) {
+        FlashCards card ;
+        if(flashCardsRepository.isExist(flashCardId)) {
+            card = flashCardsRepository.getFlashCardById(flashCardId);
+        }else {
+            throw new ServiceException();
+        }
+        return flashCardsRepository.getOneFlashCard(card.getId(),flashCardId);
     }
 }

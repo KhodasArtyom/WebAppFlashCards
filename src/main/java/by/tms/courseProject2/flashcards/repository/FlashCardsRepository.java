@@ -14,9 +14,11 @@ public interface FlashCardsRepository {
     boolean statusUpdateLearned(long flashCardId, boolean isLearned);
 
 
-    Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long offset);
+    Optional<FlashCards> getOneFlashCard(long flashCards_themes_id, long nextCard);
 
-    List<FlashCards> findAllByThemeId(long flashcard_themeId);
+    List<FlashCards> findAllCardsByThemeId(long flashcard_themeId);
 
     boolean isExist(long flashCardId);
+
+    FlashCards getFlashCardById(long flashCardId);
 }

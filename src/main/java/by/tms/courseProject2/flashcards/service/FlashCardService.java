@@ -13,9 +13,13 @@ public interface FlashCardService  {
 
     void setStatusOfKnowledge(long flashCardId,boolean isKnown);
 
-    Optional<FlashCards> trainingWithCardCardByThemeIdAndOffset(long flashCardId,long offset);
+    Optional<FlashCards> trainingWithCard(long flashCardId,long nextCard);
 
     List<FlashCards> findCardsByThemeId(long flashCardId);
+
+    Optional<FlashCards> getNextFlashCard(long flashCardId);
+
+
 
 
 

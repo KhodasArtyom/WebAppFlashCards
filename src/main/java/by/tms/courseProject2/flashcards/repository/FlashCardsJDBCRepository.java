@@ -112,9 +112,10 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long nextCard) {
+    public Optional<FlashCards> getOneFlashCard(long flashCards_themes_id, long nextCard) {
         String sql = """
-                SELECT id               AS id,
+               SELECT id               AS id,
+                       flashcards_themes_id as themeId,
                        question         AS question,
                        answer           AS answer,
                        status_knowledge AS status_knowledge
@@ -148,9 +149,10 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public List<FlashCards> findAllByThemeId(long flashcards_themesId) {
+    public List<FlashCards> findAllCardsByThemeId(long flashcards_themesId) {
         String sql = """
                 SELECT id               AS id,
+                       flashcards_themes_id as themeId,
                        question         AS question,
                        answer           AS answer,
                        status_knowledge AS status_knowledge
@@ -179,5 +181,30 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
 
     }
 
-
+    @Override
+    public FlashCards getFlashCardById(long flashCardId) {
+        String sql = """
+                SELECT id               AS id,
+                       flashcards_themes_id as themeId,
+                       question         AS question,
+                       answer           AS answer,
+                       status_knowledge AS status_knowledge
+                FROM flashcard
+                WHERE flashCards_themes_id = ?
+                """;
+        try (Connection connection = db.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1,flashCardId);
+            ResultSet resultSet = statement.executeQuery();
+            FlashCards flashCard = new FlashCards(
+                    resultSet.getLong("id"),
+                    resultSet.getLong("themeId"),
+                    resultSet.getString("question"),
+                    resultSet.getString("answer"),
+                    resultSet.getBoolean("status_knowledge"));
+            return  flashCard;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
