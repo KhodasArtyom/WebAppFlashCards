@@ -38,7 +38,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     public void save(long flashCards_themes_id, String question, String answer, boolean isLearned) {
         String sql = """
                 INSERT INTO flashcard(flashCards_themes_id, question, answer, status_knowledge)
-                VALUES (?,?,?,?)             
+                VALUES (?,?,?,?);             
                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
@@ -49,6 +49,25 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
             statement.setBoolean(4, isLearned);
             statement.executeUpdate();
 
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
+
+    }
+
+    @Override
+    public boolean isExist(long flashCardId) {
+        String sql = """
+                SELECT  TRUE
+                FROM flashcard
+                WHERE id = ?
+                """;
+        try (Connection connection = db.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setLong(1, flashCardId);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }
@@ -146,7 +165,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
                         resultSet.getBoolean("status_knowledge")
-                                ));
+                ));
             }
             return getFlashCardsList(statement);
         } catch (SQLException e) {

@@ -41,6 +41,11 @@ SELECT id               AS id,
 FROM flashcard
 WHERE flashCards_themes_id = ?;
 
+--Существует ли карточка flashCard
+SELECT  TRUE
+FROM flashcard
+WHERE id = ?;
+
 --Список карточек
 
 
@@ -56,13 +61,13 @@ LIMIT 1 OFFSET ?;
 
 --Расчет количество изученных карточек из всего списка карточек
 
-SELECT flashCards_theme.id                                              AS id,
-       flashCards_theme.set_name                                        AS name,
+SELECT flashCard_theme.id                                              AS id,
+       flashCard_theme.set_name                                        AS name,
        count(flashcard.id) FILTER ( WHERE flashcard.status_knowledge ) AS succsess,
        count(flashcard.id)                                              AS global
-FROM flashCards_theme
-            LEFT JOIN flashcard ON flashCards_theme.id = flashcard.flashCards_themes_id
-GROUP BY flashCards_theme.id;
+FROM flashCard_theme
+            LEFT JOIN flashcard ON flashCard_theme.id = flashcard.flashCards_themes_id
+GROUP BY flashCard_theme.id;
 
 
 --изменение колонки status_knowledge при успешном выполнении

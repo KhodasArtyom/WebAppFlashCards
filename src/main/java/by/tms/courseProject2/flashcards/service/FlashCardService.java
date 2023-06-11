@@ -13,9 +13,9 @@ public interface FlashCardService  {
 
     void setStatusOfKnowledge(long flashCardId,boolean isKnown);
 
-    Optional<FlashCards> trainingWithCardCardByTHemeIdAndOffset(long flashCardId,long offset);
+    Optional<FlashCards> trainingWithCardCardByThemeIdAndOffset(long flashCardId,long offset);
 
-    List<FlashCards> findCardByThemeId(long flashCardId);
+    List<FlashCards> findCardsByThemeId(long flashCardId);
 
 
 

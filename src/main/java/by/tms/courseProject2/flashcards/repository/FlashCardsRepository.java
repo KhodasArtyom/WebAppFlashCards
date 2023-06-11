@@ -16,5 +16,7 @@ public interface FlashCardsRepository {
 
     Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long offset);
 
-    List<FlashCards> findAllByThemeId(long flashcards_themesId);
+    List<FlashCards> findAllByThemeId(long flashcard_themeId);
+
+    boolean isExist(long flashCardId);
 }

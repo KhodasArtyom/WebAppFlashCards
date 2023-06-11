@@ -4,7 +4,7 @@ import by.tms.courseProject2.flashcards.models.FlashCardsThemes;
 
 import java.util.List;
 
-public interface FlashCardsThemesRepository {
+public interface    FlashCardsThemesRepository {
 
     void save(String nameOfTheme);
 

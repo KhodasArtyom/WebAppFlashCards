@@ -33,23 +33,25 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public void deleteCard(long flashCardId) {
-        boolean isExist = flashCardsThemesRepository.remove(flashCardId);
-        if(!isExist) {
-            throw new ServiceException();
+        {
+            if (flashCardsRepository.isExist(flashCardId)) {
+                flashCardsRepository.remove(flashCardId);
+            }
+
         }
     }
 
     @Override
     public void setStatusOfKnowledge(long flashCardId, boolean isKnown) {
-        boolean isUpdated = flashCardsRepository.statusUpdateLearned(flashCardId,isKnown);
-        if(!isUpdated) {
+        boolean isUpdated = flashCardsRepository.statusUpdateLearned(flashCardId, isKnown);
+        if (!isUpdated) {
             throw new ServiceException();
         }
     }
 
     @Override
-    public Optional<FlashCards> trainingWithCardCardByTHemeIdAndOffset(long themeId, long offset) {
-        if(!flashCardsThemesRepository.isExist(themeId)) {
+    public Optional<FlashCards> trainingWithCardCardByThemeIdAndOffset(long themeId, long offset) {
+        if (!flashCardsThemesRepository.isExist(themeId)) {
             throw new ServiceException();
         }
         return flashCardsRepository.findFlashCardByThemeIdAndOffset(themeId, offset);
@@ -57,7 +59,7 @@ public class FlashCardServiceImpl implements FlashCardService {
     }
 
     @Override
-    public List<FlashCards> findCardByThemeId(long flashCardId) {
+    public List<FlashCards> findCardsByThemeId(long flashCardId) {
         return flashCardsRepository.findAllByThemeId(flashCardId);
     }
 }
