@@ -43,8 +43,9 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public void setStatusOfKnowledge(long flashCardId, boolean isKnown) {
-        boolean isUpdated = flashCardsRepository.statusUpdateLearned(flashCardId, isKnown);
-        if (!isUpdated) {
+        if(flashCardsRepository.isExist(flashCardId)) {
+            flashCardsRepository.statusUpdateLearned(flashCardId,isKnown);
+        } else {
             throw new ServiceException();
         }
     }

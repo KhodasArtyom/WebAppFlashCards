@@ -24,7 +24,9 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
         ResultSet resultSet = statement.executeQuery();
         List<FlashCards> list = new ArrayList<>();
         while (resultSet.next()) {
-            FlashCards flashCards = new FlashCards(resultSet.getLong("id"),
+            FlashCards flashCards = new FlashCards(
+                    resultSet.getLong("id"),
+                    resultSet.getLong("themeId"),
                     resultSet.getString("question"),
                     resultSet.getString("answer"),
                     resultSet.getBoolean("status_knowledge"));
@@ -110,7 +112,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long offset) {
+    public Optional<FlashCards> findFlashCardByThemeIdAndOffset(long flashCards_themes_id, long nextCard) {
         String sql = """
                 SELECT id               AS id,
                        question         AS question,
@@ -119,18 +121,20 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                 FROM flashcard
                 WHERE flashcards_themes_id = ?
                   AND NOT flashcard.status_knowledge
-                      
+                  AND flashcard.id > ?
                 ORDER BY flashcard.id
-                LIMIT 1 OFFSET ?
+                LIMIT 1 
                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, flashCards_themes_id);
-            statement.setLong(2, offset);
+            statement.setLong(2, nextCard);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return Optional.of(new FlashCards(resultSet.getLong("id"),
+                return Optional.of(new FlashCards(
+                        resultSet.getLong("id"),
+                        resultSet.getLong("theme_id"),
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
                         resultSet.getBoolean("status_knowledge")));
@@ -162,6 +166,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
             while (resultSet.next()) {
                 flashCardsList.add(new FlashCards(
                         resultSet.getLong("id"),
+                        resultSet.getLong("themeId"),
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
                         resultSet.getBoolean("status_knowledge")

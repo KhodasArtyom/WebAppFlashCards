@@ -2,13 +2,15 @@ package by.tms.courseProject2.flashcards.models;
 
 public class FlashCards {
     private final long id;
+    private final long theme_id;
     private final String question;
     private final String answer;
 
     private final boolean statusKnowledge;
 
-    public FlashCards(long id, String question, String answer, boolean statusKnowledge) {
+    public FlashCards(long id, long themeId, String question, String answer, boolean statusKnowledge) {
         this.id = id;
+        this.theme_id = themeId;
         this.question = question;
         this.answer = answer;
         this.statusKnowledge = statusKnowledge;
