@@ -19,8 +19,8 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     public boolean isExist(long themeId) {
         String sql = """
                 SELECT TRUE
-                FROM flashcards_theme
-                WHERE flashcards_theme.id = ?""";
+                FROM flashcard_theme
+                WHERE flashcard_theme.id = ?""";
         try (
                 Connection connection = db.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     @Override
     public void save(String nameOfTheme) {
         String sql = """
-                INSERT INTO flashcards_theme( set_name)
+                INSERT INTO flashcard_theme( set_name)
                 VALUES (?)
                 """;
         try (Connection connection = db.getConnection();
@@ -54,7 +54,7 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     public boolean remove(long id) {
         String sql = """
                 DELETE
-                FROM flashCards_theme
+                FROM flashCard_theme
                 WHERE id = ?
                 """;
         try (Connection connection = db.getConnection();
@@ -71,13 +71,13 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     @Override
     public List<FlashCardsThemes> getAllThemes() {
         String sql = """
-                SELECT flashCards_theme.id                                              AS id,
-                       flashCards_theme.set_name                                          AS name,
+                SELECT flashCard_theme.id                                              AS id,
+                       flashCard_theme.set_name                                          AS name,
                        count(flashcard.id) FILTER ( WHERE flashcard.status_knowledge ) AS succsess,
                        count(flashcard.id)                                              AS global
-                FROM flashCards_theme
-                            LEFT JOIN flashcard ON flashCards_theme.id = flashcard.flashCards_themes_id
-                GROUP BY flashCards_theme.id
+                FROM flashCard_theme
+                            LEFT JOIN flashcard ON flashCard_theme.id = flashcard.flashCards_themes_id
+                GROUP BY flashCard_theme.id
                 """;
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {

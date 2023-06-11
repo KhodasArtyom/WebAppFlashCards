@@ -2,12 +2,12 @@
 INSERT INTO flashcard(flashCards_themes_id, question, answer, status_knowledge)
 VALUES (1,'BLACK','Чёрный',false);
 
-INSERT INTO flashcards_theme( set_name)
+INSERT INTO flashcard_theme( set_name)
 VALUES ('COLORS');
 
 --Удаление строки из таблицы flashcards-themes
 DELETE
-FROM flashCards_theme
+FROM flashCard_theme
 WHERE id = ?;
 
 --Удаление строки из таблицы flashcards
@@ -18,7 +18,7 @@ WHERE id = ?;
 -- Список набора карточек flashcards_themes
 SELECT id       AS id,
        set_name AS name
-FROM flashCards_theme;
+FROM flashCard_theme;
 
 -- Список набора карточек flashcards
 SELECT id               AS id,
@@ -30,7 +30,7 @@ FROM flashcard;
 --Редактирование списка карточки title
 SELECT id       AS id,
        set_name as name
-FROM flashCards_theme
+FROM flashCard_theme
 WHERE id = ?;
 
 --Редактироване списка карточки flashcards
