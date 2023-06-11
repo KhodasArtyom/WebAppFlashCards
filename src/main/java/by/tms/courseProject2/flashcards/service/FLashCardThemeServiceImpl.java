@@ -37,7 +37,6 @@ public class FLashCardThemeServiceImpl implements FlashCardThemeService {
 
     @Override
     public List<FlashCardsThemes> seeAllThemes() {
-
         return flashCardsThemesRepository.getAllThemes();
     }
 }
