@@ -43,21 +43,14 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public void setStatusOfKnowledge(long flashCardId, boolean isKnown) {
-        if(flashCardsRepository.isExist(flashCardId)) {
-            flashCardsRepository.statusUpdateLearned(flashCardId,isKnown);
+        if (flashCardsRepository.isExist(flashCardId)) {
+            flashCardsRepository.statusUpdateLearned(flashCardId, isKnown);
         } else {
             throw new ServiceException();
         }
     }
 
-    @Override
-    public Optional<FlashCards> trainingWithCard(long themeId, long nextCard) {
-        if (!flashCardsThemesRepository.isExist(themeId)) {
-            throw new ServiceException();
-        }
-        return flashCardsRepository.getOneFlashCard(themeId, nextCard);
 
-    }
 
     @Override
     public List<FlashCards> findCardsByThemeId(long flashCardId) {
@@ -66,12 +59,24 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public Optional<FlashCards> getNextFlashCard(long flashCardId) {
-        FlashCards card ;
-        if(flashCardsRepository.isExist(flashCardId)) {
+        FlashCards card;
+        if (flashCardsRepository.isExist(flashCardId)) {
             card = flashCardsRepository.getFlashCardById(flashCardId);
-        }else {
+        } else {
             throw new ServiceException();
         }
-        return flashCardsRepository.getOneFlashCard(card.getId(),flashCardId);
+        return flashCardsRepository.getOneFlashCardNotLearned(card.getId(), flashCardId);
+    }
+
+    @Override
+    public FlashCards getTheFirstFlashCard(long themeId) {
+        return flashCardsRepository.getOneFlashCardNotLearned(themeId, 0).orElseThrow(ServiceException::new);
+
+    }
+
+    @Override
+    public void markIsDone(long flashCardId) {
+        boolean isExist = flashCardsRepository.statusUpdateLearned(flashCardId,true);
+        if(!isExist) throw new ServiceException();
     }
 }

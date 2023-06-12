@@ -32,6 +32,10 @@ public class FlashCards {
         return statusKnowledge;
     }
 
+    public long getTheme_id() {
+        return theme_id;
+    }
+
     @Override
     public String toString() {
         return "FlashCards{" +

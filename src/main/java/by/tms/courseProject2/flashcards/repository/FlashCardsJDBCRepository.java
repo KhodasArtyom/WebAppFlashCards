@@ -112,20 +112,20 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public Optional<FlashCards> getOneFlashCard(long flashCards_themes_id, long nextCard) {
+    public Optional<FlashCards> getOneFlashCardNotLearned(long flashCards_themes_id, long nextCard) {
         String sql = """
-               SELECT id               AS id,
-                       flashcards_themes_id as themeId,
-                       question         AS question,
-                       answer           AS answer,
-                       status_knowledge AS status_knowledge
-                FROM flashcard
-                WHERE flashcards_themes_id = ?
-                  AND NOT flashcard.status_knowledge
-                  AND flashcard.id > ?
-                ORDER BY flashcard.id
-                LIMIT 1 
-                """;
+                SELECT id               AS id,
+                        flashcards_themes_id as themeId,
+                        question         AS question,
+                        answer           AS answer,
+                        status_knowledge AS status_knowledge
+                 FROM flashcard
+                 WHERE flashcards_themes_id = ?
+                   AND NOT flashcard.status_knowledge
+                   AND flashcard.id > ?
+                 ORDER BY flashcard.id
+                 LIMIT 1 
+                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, flashCards_themes_id);
@@ -157,7 +157,8 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                        answer           AS answer,
                        status_knowledge AS status_knowledge
                 FROM flashcard
-                WHERE flashCards_themes_id = ?;
+                WHERE flashCards_themes_id = ?
+                ORDER BY flashcard.id;
                 """;
 
         try (Connection connection = db.getConnection();
@@ -182,6 +183,38 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
+    public Optional<FlashCards> findFlashCardById(long flashCardId) {
+        String sql = """
+                 SELECT id               AS id,
+                       flashcards_themes_id as themeId,
+                       question         AS question,
+                       answer           AS answer,
+                       status_knowledge AS status_knowledge
+                FROM flashcard
+                WHERE flashCards_themes_id = ?
+                """;
+        try (Connection connection = db.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, flashCardId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return Optional.of(new FlashCards(
+                        resultSet.getLong("id"),
+                        resultSet.getLong("themeId"),
+                        resultSet.getString("question"),
+                        resultSet.getString("answer"),
+                        resultSet.getBoolean("status_knowledge")
+                ));
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
+    }
+
+    @Override
     public FlashCards getFlashCardById(long flashCardId) {
         String sql = """
                 SELECT id               AS id,
@@ -194,7 +227,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1,flashCardId);
+            statement.setLong(1, flashCardId);
             ResultSet resultSet = statement.executeQuery();
             FlashCards flashCard = new FlashCards(
                     resultSet.getLong("id"),
@@ -202,7 +235,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                     resultSet.getString("question"),
                     resultSet.getString("answer"),
                     resultSet.getBoolean("status_knowledge"));
-            return  flashCard;
+            return flashCard;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
