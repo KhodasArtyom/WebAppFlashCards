@@ -26,10 +26,10 @@ public class FlashCardsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Long themeId = Long.parseLong(req.getParameter("themeId"));
+        long themeId = Long.parseLong(req.getParameter("themeId"));
         List<FlashCards> flashCardsList = flashCardService.findCardsByThemeId(themeId);
         String responseBody = flashCardsList.isEmpty()?"There is no such theme":flashCardsList.stream()
-                .map(flashCards -> "%3s %s  %s %s %s".formatted(
+                .map(flashCards -> "%3s %s %s %s %s".formatted(
                         flashCards.getId(),
                         flashCards.getTheme_id(),
                         flashCards.getQuestion(),

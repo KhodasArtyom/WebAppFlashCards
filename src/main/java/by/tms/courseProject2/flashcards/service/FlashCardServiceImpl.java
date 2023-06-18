@@ -27,29 +27,30 @@ public class FlashCardServiceImpl implements FlashCardService {
         } else if (!flashCardsThemesRepository.isExist(flashCardId)) {
             throw new ServiceException();
         } else {
-            flashCardsRepository.save(flashCardId, question, answer, DEFAULT_IS_LEARNED);
+            flashCardsRepository.save(flashCardId, question, answer);
         }
     }
 
     @Override
-    public void deleteCard(long flashCardId) {
+    public FlashCards deleteCard(long flashCardId) {
         {
-            if (flashCardsRepository.isExist(flashCardId)) {
-                flashCardsRepository.remove(flashCardId);
-            }
+            FlashCards flashCard = flashCardsRepository.findFlashCardById(flashCardId)
+                    .orElseThrow(ServiceException::new);
+            flashCardsRepository.remove(flashCardId);
+            return flashCard;
 
         }
+
     }
 
     @Override
-    public void setStatusOfKnowledge(long flashCardId, boolean isKnown) {
-        if (flashCardsRepository.isExist(flashCardId)) {
-            flashCardsRepository.statusUpdateLearned(flashCardId, isKnown);
-        } else {
+    public FlashCards setStatusOfKnowledge(long flashCardId, boolean isKnown) {
+        boolean isExist = flashCardsRepository.statusUpdateLearned(flashCardId,isKnown);
+        if(!isExist) {
             throw new ServiceException();
         }
+        return  flashCardsRepository.findFlashCardById(flashCardId).orElseThrow();
     }
-
 
 
     @Override
@@ -76,7 +77,13 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public void markIsDone(long flashCardId) {
-        boolean isExist = flashCardsRepository.statusUpdateLearned(flashCardId,true);
-        if(!isExist) throw new ServiceException();
+        boolean isExist = flashCardsRepository.statusUpdateLearned(flashCardId, true);
+        if (!isExist) throw new ServiceException();
+    }
+
+    private void checkIfExist(long themeId) {
+        if (!flashCardsThemesRepository.isExist(themeId)) {
+            throw new ServiceException();
+        }
     }
 }

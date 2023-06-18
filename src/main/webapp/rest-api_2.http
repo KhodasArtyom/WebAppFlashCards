@@ -1,0 +1,50 @@
+
+### see Themes of FlashCard
+GET http://localhost:8081/themes
+
+
+
+
+###Create theme of FlashCard
+POST http://localhost:8081/create-theme
+Content-Type: application/x-www-form-urlencoded
+
+name=ENGLISH
+
+
+
+
+
+###Delete theme from FlasCard
+POST http://localhost:8081/delete-theme
+Content-Type: application/x-www-form-urlencoded
+
+themeId=3
+
+
+
+
+###Get FlashCard
+GET http://localhost:8081/flashcards?themeId=4
+
+
+
+
+###Create FlashCard
+POST http://localhost:8081/create-card
+Content-Type: application/x-www-form-urlencoded
+
+themeId=1&question=mouth&answer=рот
+
+###Delete FLashCard
+POST http://localhost:8081/delete-card
+Content-Type: application/x-www-form-urlencoded
+
+flashCardId=1
+
+###Update status of knowledge of Flashcard
+POST http://localhost:8081/update
+Content-Type: application/x-www-form-urlencoded
+
+flashCardId=1&isLearned=true
+

@@ -37,18 +37,17 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public void save(long flashCards_themes_id, String question, String answer, boolean isLearned) {
+    public void save(long flashCards_themes_id, String question, String answer) {
         String sql = """
-                INSERT INTO flashcard(flashCards_themes_id, question, answer, status_knowledge)
-                VALUES (?,?,?,?);             
-                """;
+                INSERT INTO flashсard(flashcards_themes_id, question, answer, status_knowledge)
+                VALUES (?,?,?,?)""";
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setLong(1, flashCards_themes_id);
             statement.setString(2, question);
             statement.setString(3, answer);
-            statement.setBoolean(4, isLearned);
+            statement.setBoolean(4, false);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -61,7 +60,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     public boolean isExist(long flashCardId) {
         String sql = """
                 SELECT  TRUE
-                FROM flashcard
+                FROM flashсard
                 WHERE id = ?
                 """;
         try (Connection connection = db.getConnection();
@@ -77,10 +76,10 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public void remove(long flashCardId) {
+    public boolean remove(long flashCardId) {
         String sql = """
                 DELETE
-                FROM flashcard
+                FROM flashсard
                 WHERE id = ?
                 """;
         try (Connection connection = db.getConnection();
@@ -91,14 +90,15 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }
+        return false;
     }
 
     @Override
     public boolean statusUpdateLearned(long flashCardId, boolean isLearned) {
         String sql = """
-                UPDATE flashcard
+                UPDATE flashсard
                 SET status_knowledge = ?
-                WHERE flashcard.id=?;
+                WHERE id=?
                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -119,13 +119,12 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                         question         AS question,
                         answer           AS answer,
                         status_knowledge AS status_knowledge
-                 FROM flashcard
+                 FROM flashсard
                  WHERE flashcards_themes_id = ?
-                   AND NOT flashcard.status_knowledge
-                   AND flashcard.id > ?
-                 ORDER BY flashcard.id
-                 LIMIT 1 
-                 """;
+                   AND NOT flashсard.status_knowledge
+                   AND flashсard.id > ?
+                 ORDER BY flashсard.id
+                 LIMIT 1""";
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, flashCards_themes_id);
@@ -156,10 +155,9 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                        question         AS question,
                        answer           AS answer,
                        status_knowledge AS status_knowledge
-                FROM flashcard
+                FROM flashсard
                 WHERE flashCards_themes_id = ?
-                ORDER BY flashcard.id;
-                """;
+                ORDER BY flashсard.id""";
 
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -190,9 +188,8 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                        question         AS question,
                        answer           AS answer,
                        status_knowledge AS status_knowledge
-                FROM flashcard
-                WHERE flashCards_themes_id = ?
-                """;
+                FROM flashсard
+                WHERE flashCards_themes_id = ?""";
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, flashCardId);
@@ -222,7 +219,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                        question         AS question,
                        answer           AS answer,
                        status_knowledge AS status_knowledge
-                FROM flashcard
+                FROM flashсard
                 WHERE flashCards_themes_id = ?
                 """;
         try (Connection connection = db.getConnection();

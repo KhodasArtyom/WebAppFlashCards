@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface FlashCardsRepository {
 
-    void save(long flashCards_themes_id, String question, String answer,boolean isLearned);
+    void save(long flashCards_themes_id, String question, String answer);
 
-    void remove(long flashCardId);
+    boolean remove(long flashCardId);
 
     boolean statusUpdateLearned(long flashCardId, boolean isLearned);
 

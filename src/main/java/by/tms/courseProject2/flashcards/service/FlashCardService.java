@@ -9,9 +9,9 @@ public interface FlashCardService  {
 
     void addNewCard(long flashCardId,String question,String answer);
 
-    void deleteCard(long flashCardId);
+    FlashCards deleteCard(long flashCardId);
 
-    void setStatusOfKnowledge(long flashCardId,boolean isKnown);
+    FlashCards setStatusOfKnowledge(long flashCardId, boolean isKnown);
 
 
     List<FlashCards> findCardsByThemeId(long flashCardId);

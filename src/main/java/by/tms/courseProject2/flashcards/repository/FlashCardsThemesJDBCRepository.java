@@ -19,8 +19,8 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     public boolean isExist(long themeId) {
         String sql = """
                 SELECT TRUE
-                FROM flashcard_theme
-                WHERE flashcard_theme.id = ?""";
+                FROM flashсard_theme
+                WHERE flashсard_theme.id = ?""";
         try (
                 Connection connection = db.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     @Override
     public void save(String nameOfTheme) {
         String sql = """
-                INSERT INTO flashcard_theme( set_name)
+                INSERT INTO flashсard_theme( set_name)
                 VALUES (?)
                 """;
         try (Connection connection = db.getConnection();
@@ -54,30 +54,30 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     public boolean remove(long id) {
         String sql = """
                 DELETE
-                FROM flashCard_theme
+                FROM flashсard_theme
                 WHERE id = ?
                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
-            statement.executeUpdate();
+            return statement.executeUpdate()==1;
 
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }
-        return false;
+
     }
 
     @Override
     public List<FlashCardsThemes> getAllThemes() {
         String sql = """
-                SELECT flashCard_theme.id                                              AS id,
-                       flashCard_theme.set_name                                          AS name,
-                       count(flashcard.id) FILTER ( WHERE flashcard.status_knowledge ) AS succsess,
-                       count(flashcard.id)                                              AS global
-                FROM flashCard_theme
-                            LEFT JOIN flashcard ON flashCard_theme.id = flashcard.flashCards_themes_id
-                GROUP BY flashCard_theme.id
+                SELECT flashсard_theme.id                                              AS id,
+                       flashсard_theme.set_name                                          AS name,
+                       count(flashсard.id) FILTER ( WHERE flashсard.status_knowledge ) AS succsess,
+                       count(flashсard.id)                                              AS global
+                FROM flashсard_theme
+                            LEFT JOIN flashсard ON flashсard_theme.id = flashсard.flashCards_themes_id
+                GROUP BY flashсard_theme.id
                 """;
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
