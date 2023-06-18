@@ -114,7 +114,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     @Override
     public Optional<FlashCards> getOneFlashCardNotLearned(long flashCards_themes_id, long nextCard) {
         String sql = """
-                SELECT id               AS id,
+                SELECT  id               AS id,
                         flashcards_themes_id as themeId,
                         question         AS question,
                         answer           AS answer,

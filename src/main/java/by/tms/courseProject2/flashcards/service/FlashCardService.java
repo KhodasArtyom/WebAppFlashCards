@@ -16,7 +16,7 @@ public interface FlashCardService  {
 
     List<FlashCards> findCardsByThemeId(long flashCardId);
 
-    Optional<FlashCards> getNextFlashCard(long previousFlashCardId);
+    Optional<FlashCards> getNextFlashCard(long themeId, long flashCardId);
 
     FlashCards getTheFirstFlashCard(long themeId);
 

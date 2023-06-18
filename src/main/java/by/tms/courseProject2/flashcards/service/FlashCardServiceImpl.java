@@ -13,7 +13,7 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     private final FlashCardsRepository flashCardsRepository;
     private final FlashCardsThemesRepository flashCardsThemesRepository;
-    private static final boolean DEFAULT_IS_LEARNED = false;
+
 
     public FlashCardServiceImpl(FlashCardsRepository flashCardsRepository, FlashCardsThemesRepository flashCardsThemesRepository) {
         this.flashCardsRepository = flashCardsRepository;
@@ -55,18 +55,20 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public List<FlashCards> findCardsByThemeId(long flashCardId) {
+        checkIfExist(flashCardId);
         return flashCardsRepository.findAllCardsByThemeId(flashCardId);
     }
 
     @Override
-    public Optional<FlashCards> getNextFlashCard(long flashCardId) {
-        FlashCards card;
-        if (flashCardsRepository.isExist(flashCardId)) {
-            card = flashCardsRepository.getFlashCardById(flashCardId);
-        } else {
+    public Optional<FlashCards> getNextFlashCard(long themeId, long flashCardId) {
+        FlashCards flashCard;
+
+        if (flashCardsRepository.isExist(themeId)) {
+              flashCard = flashCardsRepository.getFlashCardById(themeId);
+        }else {
             throw new ServiceException();
         }
-        return flashCardsRepository.getOneFlashCardNotLearned(card.getId(), flashCardId);
+        return flashCardsRepository.getOneFlashCardNotLearned(flashCard.getId(),themeId);
     }
 
     @Override
