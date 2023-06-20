@@ -60,14 +60,14 @@ public class FlashCardServiceImpl implements FlashCardService {
     }
 
     @Override
-    public Optional<FlashCards> getNextFlashCard(long themeId, long previousCard) {
-        if (!flashCardsRepository.isExist(themeId)) throw new ServiceException();
-        return flashCardsRepository.getOneFlashCardNotLearned(themeId, previousCard);
+    public Optional<FlashCards> getNextFlashCard(long previousCardId) {
+        FlashCards previousCard = flashCardsRepository.findFlashCardById(previousCardId).orElseThrow(ServiceException::new);
+
+        return flashCardsRepository.getOneFlashCardNotLearned(previousCard.getTheme_id(), previousCardId);
     }
 
     @Override
     public FlashCards getTheFirstFlashCard(long themeId) {
-        if (!flashCardsRepository.isExist(themeId)) throw new ServiceException();
         return flashCardsRepository.getOneFlashCardNotLearned(themeId, 0).orElseThrow(ServiceException::new);
 
     }

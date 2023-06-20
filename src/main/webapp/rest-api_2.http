@@ -9,7 +9,7 @@ GET http://localhost:8081/themes
 POST http://localhost:8081/create-theme
 Content-Type: application/x-www-form-urlencoded
 
-name=ENGLISH
+name=COLORS
 
 
 
@@ -34,7 +34,7 @@ GET http://localhost:8081/flashcards?themeId=4
 POST http://localhost:8081/create-card
 Content-Type: application/x-www-form-urlencoded
 
-themeId=1&question=mouth&answer=рот
+themeId=2&question=red&answer=красный
 
 ###Delete FLashCard
 POST http://localhost:8081/delete-card
@@ -47,4 +47,14 @@ POST http://localhost:8081/update
 Content-Type: application/x-www-form-urlencoded
 
 flashCardId=1&isLearned=true
+
+
+###Training with card
+GET http://localhost:8081/training/theFirst
+Content-Type: application/x-www-form-urlencoded
+
+themeId=11
+###TargetDone
+GET http://localhost:8081/training/theFirst
+
 

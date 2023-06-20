@@ -112,7 +112,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     }
 
     @Override
-    public Optional<FlashCards> getOneFlashCardNotLearned(long flashCards_themes_id, long nextCard) {
+    public Optional<FlashCards> getOneFlashCardNotLearned(long flashCards_themes_id, long greaterCard) {
         String sql = """
                 SELECT  id               AS id,
                         flashcards_themes_id as themeId,
@@ -128,17 +128,17 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, flashCards_themes_id);
-            statement.setLong(2, nextCard);
+            statement.setLong(2, greaterCard);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return Optional.of(new FlashCards(
+                FlashCards flashCard = new FlashCards(
                         resultSet.getLong("id"),
-                        resultSet.getLong("theme_id"),
+                        resultSet.getLong("themeId"),
                         resultSet.getString("question"),
                         resultSet.getString("answer"),
-                        resultSet.getBoolean("status_knowledge")));
-
+                        resultSet.getBoolean("status_knowledge"));
+                return Optional.of(flashCard);
             } else {
                 return Optional.empty();
             }
