@@ -16,7 +16,7 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
     }
 
     @Override
-    public boolean isExist(long themeId) {
+    public boolean isExistById(long themeId) {
         String sql = """
                 SELECT TRUE
                 FROM flashсard_theme
@@ -55,7 +55,7 @@ public class FlashCardsThemesJDBCRepository implements FlashCardsThemesRepositor
         String sql = """
                 DELETE
                 FROM flashсard_theme
-                WHERE id = ?
+                WHERE flashсard_theme.id = ?
                 """;
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

@@ -26,9 +26,8 @@ public class UpdateFlashCardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long flashCardId = Long.parseLong(req.getParameter("flashCardId"));
-        boolean isLearned = Boolean.parseBoolean(req.getParameter("isLearned"));
-        FlashCards updatedFlashCard = flashCardService.setStatusOfKnowledge(flashCardId, isLearned);
-        resp.sendRedirect(req.getContextPath() + "/flashcards" + "?themeId?" + updatedFlashCard.getTheme_id());
+        flashCardService.setStatusOfKnowledge(flashCardId);
+        resp.sendRedirect(req.getContextPath() + "/flashcards" + "?themeId?=" + flashCardId);
 
     }
 }

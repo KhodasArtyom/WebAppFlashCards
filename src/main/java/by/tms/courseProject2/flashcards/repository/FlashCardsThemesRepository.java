@@ -12,5 +12,5 @@ public interface    FlashCardsThemesRepository {
 
     List<FlashCardsThemes> getAllThemes();
 
-    boolean isExist(long themeId);
+    boolean isExistById(long themeId);
 }

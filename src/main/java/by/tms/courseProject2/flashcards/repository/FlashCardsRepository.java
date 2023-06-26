@@ -9,12 +9,12 @@ public interface FlashCardsRepository {
 
     void save(long flashCards_themes_id, String question, String answer);
 
-    boolean remove(long flashCardId);
+    void remove(long flashCardId);
 
-    boolean statusUpdateLearned(long flashCardId, boolean isLearned);
+    void statusUpdateLearned(long flashCardId);
 
 
-    Optional<FlashCards> getOneFlashCardNotLearned(long flashCards_themes_id, long nextCard);
+    FlashCards  getOneFlashCardNotLearned(long flashCards_themes_id, long nextCard);
 
     Optional<FlashCards> findFlashCardById(long flashCardId);
 

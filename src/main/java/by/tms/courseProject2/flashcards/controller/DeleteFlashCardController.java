@@ -27,7 +27,7 @@ public class DeleteFlashCardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long flashCardId = Long.parseLong(req.getParameter("flashCardId"));
-        FlashCards deletedCard = flashCardService.deleteCard(flashCardId);
-        resp.sendRedirect(req.getContextPath()+ "/flashcards" +"?themeId" + deletedCard);
+        long removedCard = flashCardService.deleteCard(flashCardId);
+        resp.sendRedirect(req.getContextPath() + "/flashcards" + "?themeId=" + removedCard);
     }
 }

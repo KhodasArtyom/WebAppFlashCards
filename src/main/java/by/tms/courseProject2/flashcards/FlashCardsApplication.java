@@ -32,7 +32,7 @@ public class FlashCardsApplication implements ServletContextListener {
         FlashCardsRepository flashCardsRepository = new FlashCardsJDBCRepository(hikariDataSource);
 
         FlashCardThemeService flashCardThemeService = new FLashCardThemeServiceImpl(flashCardsThemesRepository);
-        FlashCardService flashCardService = new FlashCardServiceImpl(flashCardsRepository, flashCardsThemesRepository);
+        FlashCardService flashCardService = new FlashCardServiceImpl(flashCardsThemesRepository,flashCardsRepository);
 
         ServletContext context = event.getServletContext();
         context.setAttribute("hikariDataSource", hikariDataSource);

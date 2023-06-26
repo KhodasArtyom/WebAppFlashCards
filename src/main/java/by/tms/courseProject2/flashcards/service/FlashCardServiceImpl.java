@@ -7,24 +7,24 @@ import by.tms.courseProject2.flashcards.repository.FlashCardsRepository;
 import by.tms.courseProject2.flashcards.repository.FlashCardsThemesRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class FlashCardServiceImpl implements FlashCardService {
 
-    private final FlashCardsRepository flashCardsRepository;
     private final FlashCardsThemesRepository flashCardsThemesRepository;
+    private final FlashCardsRepository flashCardsRepository;
 
 
-    public FlashCardServiceImpl(FlashCardsRepository flashCardsRepository, FlashCardsThemesRepository flashCardsThemesRepository) {
-        this.flashCardsRepository = flashCardsRepository;
+    public FlashCardServiceImpl(FlashCardsThemesRepository flashCardsThemesRepository, FlashCardsRepository flashCardsRepository) {
         this.flashCardsThemesRepository = flashCardsThemesRepository;
+        this.flashCardsRepository = flashCardsRepository;
+
     }
 
     @Override
     public void addNewCard(long flashCardId, String question, String answer) {
         if (question.isEmpty() || answer.isEmpty()) {
             throw new ServiceException();
-        } else if (!flashCardsThemesRepository.isExist(flashCardId)) {
+        } else if (!flashCardsRepository.isExist(flashCardId)) {
             throw new ServiceException();
         } else {
             flashCardsRepository.save(flashCardId, question, answer);
@@ -32,24 +32,23 @@ public class FlashCardServiceImpl implements FlashCardService {
     }
 
     @Override
-    public FlashCards deleteCard(long flashCardId) {
-        {
-            FlashCards flashCard = flashCardsRepository.findFlashCardById(flashCardId)
-                    .orElseThrow(ServiceException::new);
+    public long deleteCard(long flashCardId) {
+        FlashCards flashCard;
+        if(flashCardsRepository.isExist(flashCardId)) {
+            flashCard = flashCardsRepository.getFlashCardById(flashCardId);
             flashCardsRepository.remove(flashCardId);
-            return flashCard;
-
-        }
-
+        } else {
+            throw new ServiceException();
+        } return flashCard.getTheme_id();
     }
 
     @Override
-    public FlashCards setStatusOfKnowledge(long flashCardId, boolean isKnown) {
-        boolean isExist = flashCardsRepository.statusUpdateLearned(flashCardId, isKnown);
-        if (!isExist) {
+    public void setStatusOfKnowledge(long flashCardId) {
+        if(flashCardsRepository.isExist(flashCardId)){
+            flashCardsRepository.statusUpdateLearned(flashCardId);
+        } else {
             throw new ServiceException();
         }
-        return flashCardsRepository.findFlashCardById(flashCardId).orElseThrow();
     }
 
 
@@ -60,26 +59,33 @@ public class FlashCardServiceImpl implements FlashCardService {
     }
 
     @Override
-    public Optional<FlashCards> getNextFlashCard(long previousCardId) {
-        FlashCards previousCard = flashCardsRepository.findFlashCardById(previousCardId).orElseThrow(ServiceException::new);
+    public FlashCards getNextCard(long cardId) {
+        FlashCards flashCard;
+        if (flashCardsRepository.isExist(cardId)) {
+             flashCard = flashCardsRepository.getFlashCardById(cardId);
 
-        return flashCardsRepository.getOneFlashCardNotLearned(previousCard.getTheme_id(), previousCardId);
+        } else {
+            throw new ServiceException();
+        }
+
+
+        return flashCardsRepository.getOneFlashCardNotLearned(flashCard.getTheme_id(),cardId);
     }
 
     @Override
-    public FlashCards getTheFirstFlashCard(long themeId) {
-        return flashCardsRepository.getOneFlashCardNotLearned(themeId, 0).orElseThrow(ServiceException::new);
+    public FlashCards getNextFlashCard(long themeId, long greaterCard) {
+        if (flashCardsThemesRepository.isExistById(themeId)) {
+            return flashCardsRepository.getOneFlashCardNotLearned(themeId, greaterCard);
+        } else {
+            throw new ServiceException();
 
+        }
     }
 
-    @Override
-    public void markIsDone(long flashCardId) {
-        boolean isExist = flashCardsRepository.statusUpdateLearned(flashCardId, true);
-        if (!isExist) throw new ServiceException();
-    }
+
 
     private void checkIfExist(long themeId) {
-        if (!flashCardsThemesRepository.isExist(themeId)) {
+        if (!flashCardsRepository.isExist(themeId)) {
             throw new ServiceException();
         }
     }

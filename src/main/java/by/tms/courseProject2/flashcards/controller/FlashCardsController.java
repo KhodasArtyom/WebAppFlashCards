@@ -2,6 +2,7 @@ package by.tms.courseProject2.flashcards.controller;
 
 import by.tms.courseProject2.flashcards.models.FlashCards;
 import by.tms.courseProject2.flashcards.service.FlashCardService;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,18 +29,22 @@ public class FlashCardsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         long themeId = Long.parseLong(req.getParameter("themeId"));
         List<FlashCards> flashCardsList = flashCardService.findCardsByThemeId(themeId);
-        String responseBody = flashCardsList.isEmpty()?"There is no such theme":flashCardsList.stream()
-                .map(flashCards -> "%3s %s %s %s %s".formatted(
-                        flashCards.getId(),
-                        flashCards.getTheme_id(),
-                        flashCards.getQuestion(),
-                        flashCards.getAnswer(),
-                        flashCards.isStatusKnowledge()
-                ))
-                .collect(Collectors.joining("\n"));
-        resp.setContentType("text/plain");
-        resp.setCharacterEncoding("utf-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().println(responseBody);
+        req.setAttribute("flashCardsList",flashCardsList);
+        req.setAttribute("themeId",themeId);
+
+
+//        String responseBody = flashCardsList.isEmpty()?"There is no such theme":flashCardsList.stream()
+//                .map(flashCards -> "%3s %s %s %s %s".formatted(
+//                        flashCards.getId(),
+//                        flashCards.getTheme_id(),
+//                        flashCards.getQuestion(),
+//                        flashCards.getAnswer(),
+//                        flashCards.isStatusKnowledge()
+//                ))
+//                .collect(Collectors.joining("\n"));
+//        resp.setContentType("text/plain");
+//        resp.setCharacterEncoding("utf-8");
+//        resp.setStatus(HttpServletResponse.SC_OK);
+//        resp.getWriter().println(responseBody);
     }
 }
