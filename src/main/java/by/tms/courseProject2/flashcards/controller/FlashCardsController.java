@@ -31,6 +31,8 @@ public class FlashCardsController extends HttpServlet {
         List<FlashCards> flashCardsList = flashCardService.findCardsByThemeId(themeId);
         req.setAttribute("flashCardsList",flashCardsList);
         req.setAttribute("themeId",themeId);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/flashCards.jsp");
+
 
 
 //        String responseBody = flashCardsList.isEmpty()?"There is no such theme":flashCardsList.stream()

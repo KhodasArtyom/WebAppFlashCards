@@ -19,27 +19,36 @@
 <body>
 <jsp:include page="/WEB-INF/header.jsp"/>
 <main>
-
-    <h1>Main page:THEMES</h1>
-    <b>choose the theme:</b>
-    <c:if test="${themes.isEmpty()}">
-        <p>There is no any theme</p>
-    </c:if>
-    <c:if test="${!themes.isEmpty()}">
-        <ol>
-            <c:forEach var="themes" items="${themes}">
-                <li>
-                    <a href="<c:url value="/flashcards?themeId=${themes.id}"/> ">
-                        <c:out value="${themes.id}"/>
-                    </a>
-                </li>
-                <li>
-                    <a href="http://localhost:8081/flashcards?themeId=2" target="_self"><b title="Цвета">
-                        <strong>English:COLORS</strong></b></a> <b>0/0</b><br>
-                </li>
-            </c:forEach>
-        </ol>
-    </c:if>
+    <section>
+        <h1>Main page:THEMES</h1>
+        <b>choose the theme:</b>
+        <c:if test="${themes.isEmpty()}">
+            <p>There is no any theme</p>
+        </c:if>
+        <c:if test="${!themes.isEmpty()}">
+            <ol>
+                <c:forEach var="themes" items="${themes}">
+                    <li>
+                        <a href="<c:url value="/flashcards?themeId=${themes.id}"/> ">
+                            <c:out value="${themes.title}"/>
+                            <b>${themes.numberOfLearnedCards}/${themes.totalNumberOfCards}</b>
+                        </a>
+                        <form action="<c:url value="/delete-theme"/>" method="post"
+                              enctype="application/x-www-form-urlencoded">
+                            <button type="submit" name="themeId" value="${themes.id}">Delete theme</button>
+                        </form>
+                    </li>
+                </c:forEach>
+            </ol>
+        </c:if>
+    </section>
+    <section>
+        <h2>Create theme</h2>
+        <form action="<c:url value="/create-theme"/>" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="text" id ="create theme name" name="name" required>
+            <button type="submit">Create theme</button>
+        </form>
+    </section>
 
 </main>
 </body>

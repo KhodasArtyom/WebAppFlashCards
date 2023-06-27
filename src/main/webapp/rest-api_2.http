@@ -34,7 +34,7 @@ GET http://localhost:8081/flashcards?themeId=2
 POST http://localhost:8081/create-card
 Content-Type: application/x-www-form-urlencoded
 
-themeId=2&question=matrix&answer=матрица
+themeId=1&question=matrix&answer=матрица
 
 ###Delete FLashCard
 POST http://localhost:8081/delete-card
