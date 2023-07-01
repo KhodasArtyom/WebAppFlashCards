@@ -35,18 +35,6 @@ public class FlashCardsController extends HttpServlet {
 
 
 
-//        String responseBody = flashCardsList.isEmpty()?"There is no such theme":flashCardsList.stream()
-//                .map(flashCards -> "%3s %s %s %s %s".formatted(
-//                        flashCards.getId(),
-//                        flashCards.getTheme_id(),
-//                        flashCards.getQuestion(),
-//                        flashCards.getAnswer(),
-//                        flashCards.isStatusKnowledge()
-//                ))
-//                .collect(Collectors.joining("\n"));
-//        resp.setContentType("text/plain");
-//        resp.setCharacterEncoding("utf-8");
-//        resp.setStatus(HttpServletResponse.SC_OK);
-//        resp.getWriter().println(responseBody);
+
     }
 }

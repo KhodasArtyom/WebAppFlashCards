@@ -33,19 +33,6 @@ public class FLashCardsThemesController extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/themes.jsp");
         dispatcher.forward(req,resp);
 
-//        String responseBody = flashCardThemesList.isEmpty() ? "There is no themes" : flashCardThemesList.stream()
-//                .map(flashCardsThemes -> "%3s %-20s %2s / %-2s".formatted(
-//                        flashCardsThemes.getId(),
-//                        flashCardsThemes.getTitle(),
-//                        flashCardsThemes.getNumberOfLearnedCards(),
-//                        flashCardsThemes.getTotalNumberOfCards()
-//                ))
-//                .collect(Collectors.joining("\n"));
-//
-//        resp.setContentType("text/plain");
-//        resp.setCharacterEncoding("utf-8");
-//        resp.setStatus(HttpServletResponse.SC_OK);
-//        resp.getWriter().println(responseBody);
 
 
     }
