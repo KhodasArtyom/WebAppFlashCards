@@ -20,21 +20,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
         this.db = db;
     }
 
-    private List<FlashCards> getFlashCardsList(PreparedStatement statement) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
-        List<FlashCards> list = new ArrayList<>();
-        while (resultSet.next()) {
-            FlashCards flashCards = new FlashCards(
-                    resultSet.getLong("id"),
-                    resultSet.getLong("themeId"),
-                    resultSet.getString("question"),
-                    resultSet.getString("answer"),
-                    resultSet.getBoolean("status_knowledge"));
-            list.add(flashCards);
-        }
 
-        return list;
-    }
 
     @Override
     public void save(long flashCards_themes_id, String question, String answer) {
@@ -97,7 +83,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
     public void statusUpdateLearned(long flashCardId) {
         String sql = """
                 UPDATE flashсard
-                SET status_knowledge = ?
+                SET status_knowledge = TRUE
                 WHERE flashсard.id=?
                 """;
         try (Connection connection = db.getConnection();
@@ -161,6 +147,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
 
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
+
             statement.setLong(1, flashcards_themesId);
             ResultSet resultSet = statement.executeQuery();
             List<FlashCards> flashCardsList = new ArrayList<>();
@@ -173,7 +160,7 @@ public class FlashCardsJDBCRepository implements FlashCardsRepository {
                         resultSet.getBoolean("status_knowledge")
                 ));
             }
-            return getFlashCardsList(statement);
+            return flashCardsList;
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }

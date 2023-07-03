@@ -22,35 +22,35 @@ public class FlashCardServiceImpl implements FlashCardService {
 
     @Override
     public void addNewCard(long flashCardId, String question, String answer) {
-        if (question.isEmpty() || answer.isEmpty()) {
-            throw new ServiceException();
-        } else if (!flashCardsRepository.isExist(flashCardId)) {
-            throw new ServiceException();
-        } else {
-            flashCardsRepository.save(flashCardId, question, answer);
+        if (flashCardsRepository.isExist(flashCardId)) {
+            if (!question.isEmpty() || !answer.isEmpty()) {
+                flashCardsRepository.save(flashCardId, question, answer);
+            } else {
+                throw new ServiceException();
+            }
         }
     }
 
     @Override
     public long deleteCard(long flashCardId) {
         FlashCards flashCard;
-        if(flashCardsRepository.isExist(flashCardId)) {
+        if (flashCardsRepository.isExist(flashCardId)) {
             flashCard = flashCardsRepository.getFlashCardById(flashCardId);
             flashCardsRepository.remove(flashCardId);
         } else {
             throw new ServiceException();
-        } return flashCard.getTheme_id();
+        }
+        return flashCard.getTheme_id();
     }
 
     @Override
     public void setStatusOfKnowledge(long flashCardId) {
-        if(flashCardsRepository.isExist(flashCardId)){
+        if (flashCardsRepository.isExist(flashCardId)) {
             flashCardsRepository.statusUpdateLearned(flashCardId);
         } else {
             throw new ServiceException();
         }
     }
-
 
     @Override
     public List<FlashCards> findCardsByThemeId(long flashCardId) {
@@ -62,14 +62,12 @@ public class FlashCardServiceImpl implements FlashCardService {
     public FlashCards getNextCard(long cardId) {
         FlashCards flashCard;
         if (flashCardsRepository.isExist(cardId)) {
-             flashCard = flashCardsRepository.getFlashCardById(cardId);
+            flashCard = flashCardsRepository.getFlashCardById(cardId);
 
         } else {
             throw new ServiceException();
         }
-
-
-        return flashCardsRepository.getOneFlashCardNotLearned(flashCard.getTheme_id(),cardId);
+        return flashCardsRepository.getOneFlashCardNotLearned(flashCard.getTheme_id(), cardId);
     }
 
     @Override
@@ -81,7 +79,6 @@ public class FlashCardServiceImpl implements FlashCardService {
 
         }
     }
-
 
 
     private void checkIfExist(long themeId) {

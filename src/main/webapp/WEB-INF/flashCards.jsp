@@ -8,7 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="flashCards" scope="request" type="java.util.List<by.tms.courseProject2.flashcards.models.FlashCards>"/>
-<jsp:useBean id="themeId" scope="request" type="java.lang.Long"/>;
+<jsp:useBean id="themeId" scope="request" type="java.lang.Long"/>
+;
 <html>
 <head>
     <title>flashcards</title>
@@ -24,12 +25,22 @@
         <c:if test="${!flashCards.isEmpty()}">
             <ol>
                 <c:forEach var="flashCards" items="${flashCards}">
-                    <c:out value="${flashCards.question}"/>
-                    <c:out value="${flashCards.answer}"/>
-                    </c:forEach></h3>
-                </c:if>
-            </ol>
+                    <li>
+                        <p><c:out value="${flashCards.question}"/>
+                            <c:out value="${flashCards.answer}"/>
+                        </p>
+                        <p><c:out value="${card.learned ? '✅ Выучена' : '⚪️ Не выучена'}"/>
+                        </p>
+                        <form action="<c:url value="/delete-card"/>" method="post">
+                            <button type="submit" name="flashCardId" value="${flashCards.id}">Delete</button>
+                        </form>
+                    </li>
 
+                </c:forEach>
+            </ol>
+        </c:if>
+    </section>
+    <section>
 
     </section>
 </main>
