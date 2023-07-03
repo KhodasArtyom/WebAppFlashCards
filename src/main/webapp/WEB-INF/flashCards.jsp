@@ -35,7 +35,6 @@
                             <button type="submit" name="flashCardId" value="${flashCards.id}">Delete</button>
                         </form>
                     </li>
-
                 </c:forEach>
             </ol>
         </c:if>
