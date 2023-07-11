@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Artyom Khodas">
+    <meta name="description" content="The main page of themes">
+
+    <title>The main:Themes</title>
+</head>
+<body>
+<header>
+    <p>
+    <h1>Main page:THEMES</h1></p>
+    <b>choose the theme:</b>
+    <ol start="1">
+        <li>
+            <a href="http://localhost:8081/flashcards?themeId=1" target="_self"><b title="Слова">
+                <strong>English:WORDS</strong></b></a> <b>0/0</b><br>
+        </li>
+        <li>
+            <a href="http://localhost:8081/flashcards?themeId=2" target="_self"><b title="Цвета">
+                <strong>English:COLORS</strong></b></a> <b>0/0</b><br>
+        </li>
+    </ol>
+</header>
+<section>
+    <h4>Add theme:</h4>
+    <form action="/create-theme" method="post" enctype="application/x-www-form-urlencoded">
+        <label><b> the name of folder</b>
+            <input type="text" placeholder="Enter some name of folder" maxlength="30" name="name">
+        </label>
+        <button type="submit">
+            Create</button>
+    </form>
+    <h4>Delete theme: </h4>
+    <form action="/delete-theme" method="post" enctype="application/x-www-form-urlencoded">
+        <label><b>the name of folder</b></label>
+        <select id="id" name="themeId">
+            <option name="1">
+                English:WORDS
+            </option>
+            <option name="2">
+                English:COLORS
+            </option>
+        </select>
+        <button type="submit">
+            Delete
+        </button>
+    </form>
+</section>
+
+
+
+</body>
+</html>

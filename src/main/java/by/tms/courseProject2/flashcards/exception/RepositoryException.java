@@ -1,4 +1,4 @@
-package by.tms.courseProject2.FlashCards.exception;
+package by.tms.courseProject2.flashcards.exception;
 
 public class RepositoryException extends RuntimeException{
 

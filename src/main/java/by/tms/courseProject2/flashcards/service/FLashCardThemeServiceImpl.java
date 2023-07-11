@@ -1,8 +1,8 @@
-package by.tms.courseProject2.FlashCards.service;
+package by.tms.courseProject2.flashcards.service;
 
-import by.tms.courseProject2.FlashCards.exception.ServiceException;
-import by.tms.courseProject2.FlashCards.models.FlashCardsThemes;
-import by.tms.courseProject2.FlashCards.repository.FlashCardsThemesRepository;
+import by.tms.courseProject2.flashcards.exception.ServiceException;
+import by.tms.courseProject2.flashcards.models.FlashCardsThemes;
+import by.tms.courseProject2.flashcards.repository.FlashCardsThemesRepository;
 
 import java.util.List;
 
@@ -27,17 +27,16 @@ public class FLashCardThemeServiceImpl implements FlashCardThemeService {
 
     @Override
     public void removeTheme(long flashCardThemeID) {
-        try {
-            flashCardsThemesRepository.remove(flashCardThemeID);
-        } catch (ServiceException e) {
+        boolean exist = flashCardsThemesRepository.remove(flashCardThemeID);
+        if(!exist) {
             throw new ServiceException();
         }
-
     }
+
+
 
     @Override
     public List<FlashCardsThemes> seeAllThemes() {
-
         return flashCardsThemesRepository.getAllThemes();
     }
 }

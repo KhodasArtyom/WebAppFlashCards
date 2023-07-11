@@ -1,0 +1,60 @@
+
+### see Themes of FlashCard
+GET http://localhost:8081/themes
+
+
+
+
+###Create theme of FlashCard
+POST http://localhost:8081/create-theme
+Content-Type: application/x-www-form-urlencoded
+
+name=MOVIES
+
+
+
+
+
+###Delete theme from FlasCard
+POST http://localhost:8081/delete-theme
+Content-Type: application/x-www-form-urlencoded
+
+themeId=2
+
+
+
+
+###Get FlashCard
+GET http://localhost:8081/flashcards?themeId=2
+
+
+
+
+###Create FlashCard
+POST http://localhost:8081/create-card
+Content-Type: application/x-www-form-urlencoded
+
+themeId=1&question=matrix&answer=матрица
+
+###Delete FLashCard
+POST http://localhost:8081/delete-card
+Content-Type: application/x-www-form-urlencoded
+
+flashCardId=2
+
+###Update status of knowledge of Flashcard
+POST http://localhost:8081/update
+Content-Type: application/x-www-form-urlencoded
+
+flashCardId=4&isLearned=true
+
+
+###Training with  card
+GET http://localhost:8081/training?themeId=1&nextCardId=3
+Content-Type: application/x-www-form-urlencoded
+
+
+###GetNextFlashCardForTraining
+GET http://localhost:8081/training/next/cardId=1
+
+
